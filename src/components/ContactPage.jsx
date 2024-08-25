@@ -6,13 +6,13 @@ const owners = [
         name: 'Arkar Phyo',
         id: '6520052',
         email: 'u6520052@au.edu',
-        image: '',
+        image: 'src/assets/arkar.png',
     },
     {
         name: 'Min Thet Naung',
-        id: '653',
-        email: '',
-        image: '',
+        id: '6530142',
+        email: 'u6530142@au.edu',
+        image: 'src/assets/minthet.png',
     }
 ];
 
@@ -66,7 +66,7 @@ const ContactPage = () => {
                                 variant="top"
                                 src={owner.image}
                                 alt={owner.name}
-                                style={{ height: '250px', objectFit: 'cover', filter: 'brightness(70%)' }}
+                                style={{ width: '250px', height: '250px', objectFit: 'cover', margin: '0 auto', filter: 'brightness(70%)' }}
                             />
                             <Card.Body className="bg-light p-4">
                                 <Card.Title className="text-dark" style={{ fontSize: '1.5rem' }}>{owner.name}</Card.Title>
