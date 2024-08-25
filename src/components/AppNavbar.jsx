@@ -1,6 +1,6 @@
 import { Navbar, Nav, Container, Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 // import logo from "../assets/logo.jpg";
 
 const AppNavbar = ({ onSearch }) => {
@@ -16,20 +16,20 @@ const AppNavbar = ({ onSearch }) => {
     return (
         <Navbar bg="light" variant="light" expand="lg" fixed="top" className="shadow-sm">
             <Container>
-                <Navbar.Brand href="/" style={{ display: 'flex', alignItems: 'center', fontSize: '20px' }}>
+                <Navbar.Brand as={Link} to="/" style={{ display: 'flex', alignItems: 'center', fontSize: '20px' }}>
                     <span style={{ fontWeight: 'bold', color: '#333' }}>ArKar And Min Car Analytics</span>
                     <img src="./assets/carLogo.jpg" alt="" />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto me-3">
-                        <Nav.Link href="/" className="text-dark">
-                        Dashboard
+                        <Nav.Link as={Link} to="/" className="text-dark">
+                            Dashboard
                         </Nav.Link>
-                        <Nav.Link href="/highlighted-cars" className="text-dark">Highlighted Cars</Nav.Link>
-                        <Nav.Link href="/statistics" className="text-dark">Statistics</Nav.Link>
-                        <Nav.Link href="/about" className="text-dark">About</Nav.Link>
-                        <Nav.Link href="/contact" className="text-dark">Contact</Nav.Link>
+                        <Nav.Link as={Link} to="/highlighted-cars" className="text-dark">Highlighted Cars</Nav.Link>
+                        <Nav.Link as={Link} to="/statistics" className="text-dark">Statistics</Nav.Link>
+                        <Nav.Link as={Link} to="/about" className="text-dark">About</Nav.Link>
+                        <Nav.Link as={Link} to="/contact" className="text-dark">Contact</Nav.Link>
                     </Nav>
                     <Form className="d-flex" onSubmit={handleSearch}>
                         <Form.Control
