@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, Container } from 'react-bootstrap';
+import data from "../data/cars.json";
 
 const CarDetails = () => {
     const { id } = useParams();
-    const [car, setCar] = useState(null);
+    const [car, setCar] = useState(data.car);
 
     useEffect(() => {
         fetch('/src/data/cars.json') // Adjust path if necessary
