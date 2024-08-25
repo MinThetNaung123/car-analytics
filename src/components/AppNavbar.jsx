@@ -23,7 +23,9 @@ const AppNavbar = ({ onSearch }) => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto me-3">
-                        <Nav.Link href="/" className="text-dark">Dashboard</Nav.Link>
+                        <Nav.Link href="/" className="text-dark">
+                        Dashboard
+                        </Nav.Link>
                         <Nav.Link href="/highlighted-cars" className="text-dark">Highlighted Cars</Nav.Link>
                         <Nav.Link href="/statistics" className="text-dark">Statistics</Nav.Link>
                         <Nav.Link href="/about" className="text-dark">About</Nav.Link>
