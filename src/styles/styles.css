@@ -1,0 +1,19 @@
+/* Hide pagination on mobile devices */
+.d-none {
+    display: none;
+}
+
+/* Show pagination on larger screens */
+.d-md-block {
+    display: block;
+}
+
+/* Show Load More button on mobile devices */
+.d-block {
+    display: block;
+}
+
+/* Hide Load More button on larger screens */
+.d-md-none {
+    display: none;
+}
