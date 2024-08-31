@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { FaArrowUp, FaArrowDown, FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useMediaQuery } from 'react-responsive';
 import AppNavbar from './AppNavbar';
-import FilterSearch from './FilterSearch';
+import carsData from '../data/cars.json';  // Importing JSON data
 
 const Dashboard = () => {
     const [carData, setCarData] = useState([]);
@@ -20,17 +20,12 @@ const Dashboard = () => {
     const isMobile = useMediaQuery({ maxWidth: 767 });
 
     useEffect(() => {
-        fetch('/src/data/cars.json')
-            .then(response => response.json())
-            .then(data => {
-                const carsWithHighlight = data.Cars.map(car => ({
-                    ...car,
-                    highlighted: localStorage.getItem(`highlighted_${car.Cid}`) === 'true'
-                }));
-                setCarData(carsWithHighlight);
-                setFilteredData(carsWithHighlight);
-            })
-            .catch(error => console.error('Error fetching data:', error));
+        const carsWithHighlight = carsData.Cars.map(car => ({
+            ...car,
+            highlighted: localStorage.getItem(`highlighted_${car.Cid}`) === 'true'
+        }));
+        setCarData(carsWithHighlight);
+        setFilteredData(carsWithHighlight);
     }, []);
 
     // Extract unique brands for the dropdown
@@ -188,39 +183,39 @@ const Dashboard = () => {
                         ))
                     ) : (
                         <Col>
-                            <p>No cars found.</p>
-                        </Col>
-                    )}
-                </Row>
-
-                {isMobile ? (
-                    currentItems.length < filteredData.length && (
-                        <div className="d-flex justify-content-center my-3">
-                            <Button onClick={handleLoadMore}>Load More</Button>
-                        </div>
-                    )
-                ) : (
-                    <div className="d-flex justify-content-end my-3">
-                        <Pagination>
-                            <Pagination.First onClick={() => handlePageChange(1)} disabled={currentPage === 1} />
-                            <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
-                            {[...Array(totalPages).keys()].map(number => (
-                                <Pagination.Item
-                                    key={number + 1}
-                                    active={number + 1 === currentPage}
-                                    onClick={() => handlePageChange(number + 1)}
-                                >
-                                    {number + 1}
-                                </Pagination.Item>
-                            ))}
-                            <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
-                            <Pagination.Last onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages} />
-                        </Pagination>
-                    </div>
+                        <p>No cars found.</p>
+                    </Col>
                 )}
-            </Container>
-        </>
-    );
+            </Row>
+
+            {isMobile ? (
+                currentItems.length < filteredData.length && (
+                    <div className="d-flex justify-content-center my-3">
+                        <Button onClick={handleLoadMore}>Load More</Button>
+                    </div>
+                )
+            ) : (
+                <div className="d-flex justify-content-end my-3">
+                    <Pagination>
+                        <Pagination.First onClick={() => handlePageChange(1)} disabled={currentPage === 1} />
+                        <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
+                        {[...Array(totalPages).keys()].map(number => (
+                            <Pagination.Item
+                                key={number + 1}
+                                active={number + 1 === currentPage}
+                                onClick={() => handlePageChange(number + 1)}
+                            >
+                                {number + 1}
+                            </Pagination.Item>
+                        ))}
+                        <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
+                        <Pagination.Last onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages} />
+                    </Pagination>
+                </div>
+            )}
+        </Container>
+    </>
+);
 };
 
 export default Dashboard;

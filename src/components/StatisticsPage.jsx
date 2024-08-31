@@ -2,21 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Table } from 'react-bootstrap';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import 'chart.js/auto'; // Import Chart.js components
+import data from '../data/cars.json'; // Adjust the import path
 
 const StatisticsPage = () => {
-    const [data, setData] = useState({
+    const [statistics, setStatistics] = useState({
         brands: {},
         models: {},
     });
 
     useEffect(() => {
-        fetch('/src/data/cars.json')
-            .then(response => response.json())
-            .then(data => {
+        // Simulating fetch from a local import
+        const loadData = async () => {
+            try {
+                const { Cars } = data;
                 const brands = {};
                 const models = {};
 
-                data.Cars.forEach(car => {
+                Cars.forEach(car => {
                     const brand = car.NameMMT.split(' ')[0];
                     const model = car.Model;
                     let price = parseFloat(car.Prc.replace(/,/g, ''));
@@ -40,27 +42,31 @@ const StatisticsPage = () => {
                     models[brand][model] += 1;
                 });
 
-                setData({
+                setStatistics({
                     brands,
                     models
                 });
-            })
-            .catch(error => console.error('Error fetching data:', error));
+            } catch (error) {
+                console.error('Error processing data:', error);
+            }
+        };
+
+        loadData();
     }, []);
 
     // Prepare data for charts
     const donutData = {
-        labels: Object.keys(data.brands),
+        labels: Object.keys(statistics.brands),
         datasets: [{
-            data: Object.values(data.brands).map(b => b.value),
+            data: Object.values(statistics.brands).map(b => b.value),
             backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
             borderColor: '#fff',
             borderWidth: 1
         }]
     };
 
-    const modelLabels = [...new Set(Object.keys(data.models).reduce((acc, brand) => {
-        return [...acc, ...Object.keys(data.models[brand])];
+    const modelLabels = [...new Set(Object.keys(statistics.models).reduce((acc, brand) => {
+        return [...acc, ...Object.keys(statistics.models[brand])];
     }, []))];
 
     const colorPalette = [
@@ -69,9 +75,9 @@ const StatisticsPage = () => {
     ];
 
     const stackedBarData = {
-        labels: Object.keys(data.models), // Brand names for x-axis
+        labels: Object.keys(statistics.models), // Brand names for x-axis
         datasets: modelLabels.map((model, index) => {
-            const dataForModel = Object.keys(data.models).map(brand => data.models[brand][model] || 0);
+            const dataForModel = Object.keys(statistics.models).map(brand => statistics.models[brand][model] || 0);
             return {
                 label: model,
                 data: dataForModel,
@@ -90,7 +96,6 @@ const StatisticsPage = () => {
                 </Col>
             </Row>
 
-            
             {/* Donut chart for portion of cars by brand */}
             <Row className="mb-4">
                 <Col md={6}>
@@ -123,7 +128,7 @@ const StatisticsPage = () => {
             </Row>
 
             {/* Stacked bar chart for models of a brand */}
-            <Row>
+            <Row className="mb-4">
                 <Col md={12}>
                     <Card className="border-0 shadow-sm">
                         <Card.Body>
@@ -158,7 +163,7 @@ const StatisticsPage = () => {
                                             stacked: true,
                                             title: {
                                                 display: true,
-                                                text: 'Models'
+                                                text: 'Number of Models'
                                             },
                                             ticks: {
                                                 display: false // Hide numerical values
@@ -171,6 +176,7 @@ const StatisticsPage = () => {
                     </Card>
                 </Col>
             </Row>
+
             {/* Table for number of cars and values */}
             <Row className="mb-4">
                 <Col md={12}>
@@ -199,15 +205,15 @@ const StatisticsPage = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {Object.entries(data.brands).map(([brand, { count, value }]) => (
+                                    {Object.entries(statistics.brands).map(([brand, { count, value }]) => (
                                         <>
                                             <tr key={brand} className="bg-light">
-                                                <td rowSpan={Object.keys(data.models[brand] || {}).length + 1}>{brand}</td>
+                                                <td rowSpan={Object.keys(statistics.models[brand] || {}).length + 1}>{brand}</td>
                                                 <td>Total</td>
                                                 <td>{count}</td>
                                                 <td>{value.toFixed(2)}</td>
                                             </tr>
-                                            {Object.entries(data.models[brand] || {}).map(([model, modelCount]) => (
+                                            {Object.entries(statistics.models[brand] || {}).map(([model, modelCount]) => (
                                                 <tr key={`${brand}-${model}`}>
                                                     <td>{model}</td>
                                                     <td>{modelCount}</td>

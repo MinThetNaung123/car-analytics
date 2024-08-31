@@ -1,18 +1,23 @@
 import { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 
+// Import images
+import arkarImage from '../assets/arkar.jpeg';
+import minthetImage from '../assets/minthet.jpeg';
+
+// Update owners array to use imported images
 const owners = [
     {
         name: 'Arkar Phyo',
         id: '6520052',
         email: 'u6520052@au.edu',
-        image: 'src/assets/arkar.png',
+        image: arkarImage,
     },
     {
         name: 'Min Thet Naung',
         id: '6530142',
         email: 'u6530142@au.edu',
-        image: 'src/assets/minthet.png',
+        image: minthetImage,
     }
 ];
 

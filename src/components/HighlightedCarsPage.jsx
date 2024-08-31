@@ -3,22 +3,17 @@ import { Card, Row, Col, Container, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaHeart } from 'react-icons/fa';
 import AppNavbar from './AppNavbar';
+import carData from '../data/cars.json'; // Import JSON data directly
 
 const HighlightedCarPage = () => {
     const [highlightedCars, setHighlightedCars] = useState([]);
 
     useEffect(() => {
-        fetch('/src/data/cars.json')
-            .then(response => response.json())
-            .then(data => {
-                const highlighted = data.Cars.filter(car =>
-                    localStorage.getItem(`highlighted_${car.Cid}`) === 'true'
-                );
-                setHighlightedCars(highlighted);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        // Use imported data instead of fetching
+        const highlighted = carData.Cars.filter(car =>
+            localStorage.getItem(`highlighted_${car.Cid}`) === 'true'
+        );
+        setHighlightedCars(highlighted);
     }, []);
 
     const removeHighlight = (Cid) => {
@@ -62,10 +57,10 @@ const HighlightedCarPage = () => {
                                             </Link>
                                         </Card.Title>
                                         <Card.Text className="mb-4">
-                                            <div>Model: {car.Model}</div>
-                                            <div>Year: {car.Yr}</div>
-                                            <div>Price: {car.Prc} {car.Currency}</div>
-                                            <div>Province: {car.Province}</div>
+                                            <div><strong>Model:</strong> {car.Model}</div>
+                                            <div><strong>Year:</strong> {car.Yr}</div>
+                                            <div><strong>Price:</strong> {car.Prc} {car.Currency}</div>
+                                            <div><strong>Province:</strong> {car.Province}</div>
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>
